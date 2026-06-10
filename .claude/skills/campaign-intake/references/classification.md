@@ -10,14 +10,23 @@ This document provides the judgment rules to translate a Whop campaign into `cat
 | category | When | Tells in the brief |
 |---|---|---|
 | `spoken-clip` | Speech is the value — podcast, interview, talk | "podcast", "episode", long conversations, transcript-driven, one/more speakers |
-| `visual-clip` | Image is the value — footage with visual moments | food, product, travel, gaming, reactions, "b-roll", "footage", visual highlights |
+| `visual-clip` | Image is the value — creator-led footage with visual moments | food, product, travel, reactions, IRL/streamer, "b-roll", "footage", visual highlights |
 | `ugc-produce` | Original production needed — no ready footage | "create original content", "talking head", "film yourself", script skeleton in the brief, NO content library |
 | `music` | An **artist/act is the value** — clip live/concert/fancam/tour footage | musician/band/tour campaign, concert or live-session footage, fancam library, "clip the show", song/performance highlights |
+| `gaming` | A **specific game's trailer/gameplay footage is the value** — no creator on screen | game-publisher/title campaign, "clip the trailer", "clip our gameplay footage", new game/update/season reveal, dev-provided game capture |
 
 Mixed cases: decide by the **main work**. A podcast with some b-roll stays `spoken-clip`
 (transcript drives the clips). A food vlog with voiceover is `visual-clip` (the images
 stop the scroll). When in doubt, pick the category whose skill delivers the larger share
 of the value.
+
+**`gaming` vs. `visual-clip` — read carefully.** Both are visually led, but the source
+differs: `gaming` is for campaigns where the **content library IS a specific game** —
+trailer footage, dev-provided gameplay capture, or first-look footage of a title, with
+**no creator/host on screen**. The hook is hype about the GAME (a reveal, a crossover,
+"X years later", first look at gameplay/a new mode). A streamer/creator's gaming
+*reactions or highlight reel* (their face, their commentary, their personality) stays
+`visual-clip` — there the creator is the value, the game is just the subject.
 
 **`music` vs. the look-alikes — read carefully.** `music` is for **clipping an artist's
 existing performance footage** (the live vocals / choreo / crowd / fan moments are the

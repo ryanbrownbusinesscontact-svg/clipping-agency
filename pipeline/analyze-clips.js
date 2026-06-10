@@ -73,8 +73,9 @@ if (!fs.existsSync(campaignPath)) {
   process.exit(1);
 }
 const campaign = JSON.parse(fs.readFileSync(campaignPath, 'utf8'));
-const isMusic  = campaign.category === 'music';   // music flips several spoken/visual defaults
-const MIN_DUR  = isMusic ? 10 : 15;               // music peaks (a belt/drop) run shorter than a spoken point
+const isMusic  = campaign.category === 'music';    // music flips several spoken/visual defaults
+const isGaming = campaign.category === 'gaming';   // gaming: wordless-ok like music, but no fan-voice
+const MIN_DUR  = (isMusic || isGaming) ? 10 : 15;  // music/gaming peaks (a belt/drop or reveal) run shorter than a spoken point
 
 // ── Videos in content_library ──────────────────────────────────────────────
 const allVideos = [
@@ -156,9 +157,11 @@ function buildPrompt(durationSec, transcriptText, segmentInfo) {
     return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   })() : null;
 
-  // ── Category-conditional OUTPUT-CONTRACT pieces — music flips spoken/visual defaults ──
+  // ── Category-conditional OUTPUT-CONTRACT pieces — music/gaming flip spoken/visual defaults ──
   const verbalHookField = isMusic
     ? `verbal_hook            (opening spoken line IF any speech; null for wordless performance)`
+    : isGaming
+    ? `verbal_hook            (opening spoken/narration line or readable on-screen text IF any; null for wordless trailer/gameplay footage)`
     : `verbal_hook            (opening spoken line; for hook_relocate: the relocated line)`;
   const firstPersonRule = isMusic
     ? `- hook_title is written in FAN / COMMENT voice (stan voice). Collective first person
@@ -173,17 +176,30 @@ function buildPrompt(durationSec, transcriptText, segmentInfo) {
   const verbalHookRule = isMusic
     ? `- verbal_hook is OPTIONAL — the exact opening spoken words IF the clip contains speech,
   else null. Pure performance clips are wordless and valid.`
+    : isGaming
+    ? `- verbal_hook is OPTIONAL — the exact opening spoken/narration words or readable
+  on-screen text IF the clip has any, else null. Pure trailer/gameplay footage with no
+  dialogue or text is wordless and valid.`
     : `- verbal_hook MUST be the exact opening spoken words of the clip at timestamp "start".
   ${transcriptText ? `Copy verbatim from the transcript — this is how "start" is verified.` : `This phrase is your timestamp anchor — locate it precisely in the audio.`}`;
   const boundaryRule = isMusic
     ? `- "start"/"end" align to MUSICAL structure, not sentences: enter 1–2 beats before the
   peak (belt / drop / key change / dance break / fan moment) and end shortly after it
   resolves. A tight window around the single peak beats a long loose one.`
+    : isGaming
+    ? `- "start"/"end" align to the REVEAL/GAMEPLAY beat, not sentences: enter 1–2s before
+  the payoff (the reveal frame, logo/title-card drop, character/feature unveil,
+  clutch/kill, UI moment) and end shortly after it lands — never mid-action, never a
+  long loose tail. A tight window around the single reveal beats a long loose one.`
     : `- "start" begins on a complete thought (no leading filler/conjunction/previous-line
   fragment); "end" lands on the first sentence-final boundary after the payoff — never
   mid-sentence, never a meandering tail. A tight clean window beats a long loose one.`;
   const locateRule = isMusic
     ? `2. Locate each moment by its musical/visual beat (the peak you are clipping), not by counting frames.`
+    : isGaming
+    ? `2. Locate each moment by its visual/gameplay beat (the reveal or highlight you are
+  clipping), not by counting frames; spoken/on-screen text is an additional anchor if
+  present.`
     : `2. Locate every verbal_hook by its speech content in the audio, not by counting frames.`;
 
   // ── Segment-Context-Block (zwei Varianten) ────────────────────────────────
@@ -502,6 +518,7 @@ const LENS_ENUMS = {
   'visual-clip':  ['peak_reaction','spectacle','storytelling','personality','stakes','status_price','social_humor','borrowed_audience'],
   'spoken-clip':  ['contrarian','curiosity_gap','concrete_number','high_stakes','story_turn','qa_reveal','authority'],
   'music':        ['vocal_flex','spectacle_peak','parasocial_moment','crowd_communion','status_take','iconic_meme','surprise'],
+  'gaming':       ['reveal_hype','nostalgia_return','crossover_surprise','gameplay_firstlook','community_reaction','comparison_debate'],
 };
 const validHookTypes = LENS_ENUMS[campaign.category] || [];
 

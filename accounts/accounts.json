@@ -41,6 +41,16 @@
       "warming": { "started": null, "ready": false },
       "serves_campaigns": ["dua-lipa-live-mexico"],
       "_note": "Evergreen Pop/Musik-Konzert-Kanal (Fancam-/Clip-Stil). Nimmt Music-Kampagnen auf (Konzert-/Live-Footage). Brief erlaubt 'any page' — kein Dedikated-Account noetig. Handles eintragen sobald erstellt + aufgewaermt."
+    },
+    {
+      "id": "gaming",
+      "type": "theme",
+      "niche": "gaming",
+      "handles": { "tiktok": null, "instagram": null, "youtube": null, "x": null },
+      "status": "planned",
+      "warming": { "started": null, "ready": false },
+      "serves_campaigns": [],
+      "_note": "Evergreen Gaming-Kanal fuer Trailer-/Gameplay-Reveal-Clips (category=gaming, kein Creator im Bild). Nimmt Kampagnen verschiedener Titel/Publisher auf. Handles eintragen sobald erstellt + aufgewaermt."
     }
   ],
 

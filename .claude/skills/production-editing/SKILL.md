@@ -40,6 +40,7 @@ same category, same treatment, for every clip of that lens.
 | `spoken-clip` | `references/treatment-spoken-clip.md` | words lead → full neon karaoke + word-keyed zoom (the validated house style) |
 | `visual-clip` | `references/treatment-visual-clip.md` | image leads → sparse captions, gentle motion, footage audio forward |
 | `music` | `references/treatment-music.md` | performance leads → static fan-voice caption, beat-synced motion, original audio is the track, NO speed-up |
+| `gaming` | `references/treatment-gaming.md` | game trailer/gameplay leads, no host → minimal/no captions, restrained reveal-beat zoom, trailer audio forward, NO speed-up |
 
 The **shared house-style component values** (caption-neon specs, zoom hierarchy, white-box
 hook, audio LUFS targets) live in `CLAUDE.md` (repo root). Those numbers are the

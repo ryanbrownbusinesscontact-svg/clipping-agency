@@ -70,6 +70,7 @@ Read `campaigns/<id>/campaign.json`. Determine `category` → matching lens:
 - `spoken-clip` → `references/lens-spoken-clip.md`
 - `visual-clip` → `references/lens-visual-clip.md`
 - `music` → `references/lens-music.md`
+- `gaming` → `references/lens-gaming.md`
 - `ugc-produce` → not built yet → flag in the report, do not guess.
 
 Then **if present** read `campaigns/<id>/winning-examples.md` (layer 3, inspiration).
@@ -91,6 +92,13 @@ Status-Take) and write the hook in fan/comment voice. Note the lens overrides: `
 is optional (wordless performance peaks are valid) and first-person *collective* ("us/we")
 is allowed in `hook_title` (the audience voice), unlike spoken/visual.
 
+**`gaming`:** Same one-shot approach — Gemini processes the whole video (visual leads,
+game audio supports). The gaming lens tells it to hunt for reveal/nostalgia/crossover/
+first-look moments and write the hook as a gaming-news-style hype line, third person,
+naming the game. Like music, `verbal_hook` is optional here (trailers/gameplay capture
+are often wordless) — but unlike music, `hook_title` stays third-person/neutral, never
+fan/stan voice.
+
 ### 3. Assemble the prompt
 Build the Gemini prompt from all layers per `references/gemini-prompt.md`: **core**
 (clip-psychology + extraction-method) + **lens** (lens-<category>) + **campaign examples**
@@ -103,10 +111,10 @@ Floor/ceiling clear: every candidate needs a hook primitive (floor), be generous
 
 ### 4. Gemini analysis (one-shot, all categories)
 
-`spoken-clip`, `visual-clip` and `music` all use the **same one-shot Gemini call**: pass
-the YouTube URL directly via `fileData.fileUri`. Gemini processes the full video (audio +
-visuals) in one pass. What differs is the **lens + prompt** that guides which dimension
-leads:
+`spoken-clip`, `visual-clip`, `music` and `gaming` all use the **same one-shot Gemini
+call**: pass the YouTube URL directly via `fileData.fileUri`. Gemini processes the full
+video (audio + visuals) in one pass. What differs is the **lens + prompt** that guides
+which dimension leads:
 
 - `spoken-clip`: lens focuses Gemini on verbal primitives — the *words* find the clips;
   visual/expression is a tiebreaker boost only.
@@ -114,6 +122,9 @@ leads:
   is context.
 - `music`: lens weighs audio + visual *jointly* — the vocal/musical peak is itself a
   payoff axis, not just context; the hook is a projected fan reaction, not a spoken line.
+- `gaming`: lens focuses Gemini on reveal/gameplay beats in trailer or capture footage —
+  the hook is gaming-news-style hype about the game, third person; dialogue/narration (if
+  any) is a bonus anchor, not required.
 
 Model: `gemini-2.5-flash` (fast, cost-effective for long videos at the Flash tier).
 
@@ -155,10 +166,13 @@ node pipeline/edit-clips.js <campaign-id> "<video-label>"   # → production-edi
 - **`references/lens-spoken-clip.md`** — lens for podcast/interview/talk (transcript
   leads). Load when `category = spoken-clip`.
 - **`references/lens-visual-clip.md`** — lens for creator vlog/reaction/travel/food/
-  gaming/streamer (visual leads). Load when `category = visual-clip`.
+  streamer (visual leads, creator on screen). Load when `category = visual-clip`.
 - **`references/lens-music.md`** — lens for artist/live-music/concert/fancam content
   (audio + visual lead jointly; hook = projected fan reaction). Load when
   `category = music`.
+- **`references/lens-gaming.md`** — lens for game-trailer/gameplay clipping, no creator
+  on screen (visual leads; hook = gaming-news-style hype about the game, third person).
+  Load when `category = gaming`.
 
 ### Per campaign (layer 3, optional)
 - **`campaigns/<id>/winning-examples.md`** — proven hooks/formats for this campaign
