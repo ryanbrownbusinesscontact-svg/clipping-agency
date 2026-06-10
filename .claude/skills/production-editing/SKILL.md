@@ -42,7 +42,7 @@ same category, same treatment, for every clip of that lens.
 | `music` | `references/treatment-music.md` | performance leads → static fan-voice caption, beat-synced motion, original audio is the track, NO speed-up |
 
 The **shared house-style component values** (caption-neon specs, zoom hierarchy, white-box
-hook, audio LUFS targets) live in `C:\Users\priva\CLAUDE.md`. Those numbers are the
+hook, audio LUFS targets) live in `CLAUDE.md` (repo root). Those numbers are the
 *calibrated `spoken-clip` defaults*; the visual-clip and music treatments reuse the same
 components but with their own settings (and some are still being calibrated — each profile
 flags that).
@@ -59,7 +59,7 @@ before a large batch — rendering is the expensive step.
 
 Note each candidate's **`lens`** → that selects the treatment profile for step 4. A single
 video's candidates normally share one lens (the campaign category), but always check.
-Read the matching `references/treatment-<lens>.md` now, plus `C:\Users\priva\CLAUDE.md`
+Read the matching `references/treatment-<lens>.md` now, plus `CLAUDE.md` (repo root)
 for the shared component values it points to.
 
 ### 2. Deterministic cut (script) — universal
@@ -154,7 +154,7 @@ then publishing (step 7) moves the approved files to `published/`.
   beat-synced motion, original audio is the track, no speed-up. (Starter defaults.)
 
 ### Shared component values
-- **`C:\Users\priva\CLAUDE.md`** — calibrated caption-neon, zoom-hierarchy, white-box hook
+- **`CLAUDE.md`** (repo root) — calibrated caption-neon, zoom-hierarchy, white-box hook
   and audio-LUFS specs. These are the `spoken-clip` defaults; other treatments reuse the
   components with their own settings.
 

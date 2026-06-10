@@ -2,7 +2,7 @@
 
 For `clip.json.lens == "spoken-clip"` — podcast / interview / talk. **The words ARE the
 content**, so the edit makes every word legible and keeps the talking head energetic. This
-is the **validated house style**; all numbers are calibrated in `C:\Users\priva\CLAUDE.md`
+is the **validated house style**; all numbers are calibrated in `CLAUDE.md` (repo root)
 — read it for the exact values. This profile is the routing summary, not a second source
 of truth.
 
