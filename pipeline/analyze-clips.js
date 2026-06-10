@@ -30,7 +30,7 @@ const path = require('path');
 
 // ── Paths ─────────────────────────────────────────────────────────────────
 const ROOT   = path.join(__dirname, '..');
-const SKILLS = path.join('C:\\Users\\priva\\.claude\\skills\\clip-analysis\\references');
+const SKILLS = path.join(ROOT, '.claude', 'skills', 'clip-analysis', 'references');
 
 // ── Load .env (optional) ──────────────────────────────────────────────────
 try {
@@ -589,7 +589,7 @@ async function analyzeOne(ai, video) {
           // drawtext: \: ist Escape für Doppelpunkt im ffmpeg-Filterstring
           // fontfile: Arial explizit (Windows-Fontconfig nicht verfügbar)
           // 720p (1280×720) — bessere Gesichts-/Crowd-Erkennung, Timestamp gut lesbar
-          const vf = `setpts=PTS-STARTPTS,scale=1280:-2,drawtext=fontfile='C\\:/Windows/Fonts/arial.ttf':text='%{pts\\:hms}':fontsize=48:fontcolor=white:box=1:boxcolor=black@0.85:boxborderw=6:x=15:y=15:basetime=${basetime}`;
+          const vf = `setpts=PTS-STARTPTS,scale=1280:-2,drawtext=fontfile='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf':text='%{pts\\:hms}':fontsize=48:fontcolor=white:box=1:boxcolor=black@0.85:boxborderw=6:x=15:y=15:basetime=${basetime}`;
           // 2fps: Gemini sampelt intern ~1fps → kein Qualitätsverlust für Analyse.
           // 480p + Arial-Timestamp-Overlay → lesbar, ~8-15 MB pro 30min.
           execSyncLocal(

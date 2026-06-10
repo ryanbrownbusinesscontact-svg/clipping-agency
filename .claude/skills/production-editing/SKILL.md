@@ -12,7 +12,7 @@ Input is one longform video's `clips/<label>/candidates.json` + its
 `unpublished/` folder. Nothing here decides *what* to clip — that was step 3. This step
 *executes the edit*: cut → (caption) → motion → hook overlay → audio mix → render.
 
-Business root (ROOT): `C:\Users\priva\Clipping Agency`
+Business root (ROOT): `/home/niklas_baecker_b44/clipping-agency`
 - Input:  `campaigns/<id>/clips/<label>/candidates.json` + `campaigns/<id>/raw-footage/<label>.mp4`
 - Work:   `campaigns/<id>/clips/<label>/_work/<clip-id>/` (cut source, audio, transcript, composition)
 - Output: `campaigns/<id>/clips/<label>/unpublished/<clip-id>.mp4`

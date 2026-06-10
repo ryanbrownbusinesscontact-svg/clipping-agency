@@ -22,7 +22,7 @@ if (!id || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id)) {
   process.exit(1);
 }
 const rootIdx = rest.indexOf('--root');
-const ROOT = rootIdx >= 0 ? rest[rootIdx + 1] : 'C:\\Users\\priva\\Clipping Agency';
+const ROOT = rootIdx >= 0 ? rest[rootIdx + 1] : path.resolve(__dirname, '..', '..', '..', '..');
 
 const tmpl = path.join(ROOT, 'campaigns', '_TEMPLATE.campaign.json');
 const dir = path.join(ROOT, 'campaigns', id);

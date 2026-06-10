@@ -20,7 +20,7 @@ that video live. This skill creates the folder (it is "born" with the analysis):
 - `campaigns/<id>/clips/<video-label>/published/` — created empty; reels move here once live
 - `campaigns/<id>/clips/_all-ranked.json` — every video merged, sorted by score
 
-Business root (ROOT): `C:\Users\priva\Clipping Agency`
+Business root (ROOT): `/home/niklas_baecker_b44/clipping-agency`
 - Campaign contract: `campaigns/<id>/campaign.json`
 - Footage: `campaigns/<id>/raw-footage/<video-label>.mp4` (+ `footage.json` manifest)
 - Output: `campaigns/<id>/clips/<video-label>/candidates.json` (+ `_all-ranked.json`)
