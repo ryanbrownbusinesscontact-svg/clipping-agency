@@ -1,0 +1,67 @@
+{
+  "_TEMPLATE_NOTE": "Blaupause fuer jede neue Kampagne. So nutzen: Datei nach campaigns/<id>/campaign.json kopieren und ausfuellen. Regel: NUR harte Regeln (must_do/must_avoid), Fakten (economics, content_library) und Zuordnungen (category, account_usage). KEINE Empfehlungen/Hooks/Presets — das macht der Skill, gleich fuer jede Kampagne derselben category. Felder mit null = ausfuellen oder leer lassen.",
+
+  "id": "kebab-case-id",
+  "title": "",
+  "client": "",
+  "platform_source": "whop",
+  "whop_url": null,
+  "operator": "",
+  "status": "active",
+  "_status_options": "active | paused | done | skipped",
+  "parsed_at": "YYYY-MM-DD",
+
+  "category": "",
+  "_category_options": "spoken-clip | visual-clip | ugc-produce | music",
+  "_category_note": "Bestimmt welcher Skill laeuft. spoken-clip = Podcast/Interview (Transkript). visual-clip = Footage mit visuellen Momenten (Food/Produkt/Gaming). ugc-produce = Eigenproduktion (kein Library, Script-Skelett aus Brief; auch wenn nur ein Sound/Track zum Drueberlegen geliefert wird). music = Artist/Konzert/Live/Fancam-Footage clippen (die Performance selbst ist der Content, Hook = projizierte Fan-Reaktion).",
+
+  "decision": {
+    "fit_score": null,
+    "_fit_scale": "0-10, >=6 = nehmen. Bewertet Library-Groesse, Account-Freiheit, Economics, Wiederkehr.",
+    "verdict": "",
+    "_verdict_options": "TAKE | SKIP"
+  },
+
+  "economics": {
+    "cpm_usd": null,
+    "min_payout_usd": null,
+    "max_payout_per_video_usd": null,
+    "total_budget_usd": null,
+    "budget_remaining_usd": null,
+    "approval_rate": null,
+    "_note": "Aus Whop-Dashboard. budget_remaining vor jeder Session aktualisieren."
+  },
+
+  "account_usage": {
+    "dedicated_required": false,
+    "theme_account": null,
+    "dedicated_account": null,
+    "_note": "theme_account = id eines theme_accounts-Eintrags in accounts/accounts.json (wenn Content auf Nische-Kanal darf). dedicated_account = id eines brand_accounts-Eintrags (wenn eigene Brand-Seite). dedicated_required=true wenn die Kampagne eine dedizierte Seite VORSCHREIBT."
+  },
+
+  "brief": {
+    "brief_urls": []
+  },
+
+  "content_library": {
+    "_note": "Approved Quellen. Bei ugc-produce stattdessen leer lassen — dort liefert der Brief das Script-Skelett (ggf. Track-/Sound-Asset in 'other'). Bei music: die Artist-/Konzert-/Fancam-Footage-Quellen (official_youtube / third_party_youtube / drive_folders).",
+    "official_youtube": [],
+    "third_party_youtube": [],
+    "drive_folders": [],
+    "other": []
+  },
+
+  "must_do": [],
+  "_must_do_note": "Nur harte Pflichten: Tags, Hashtags, approved sources, Format (9:16), Sprache, Mindest-Laufzeit, Einreichungs-Pflichten etc.",
+
+  "must_avoid": [],
+  "_must_avoid_note": "Nur klare Verbote: gesperrte Quellen, Brand-Safety-Killer, alles was zu Reject/Nicht-billable fuehrt.",
+
+  "submission": {
+    "platform": "",
+    "deadline": null,
+    "demographics_screenshot_required": false,
+    "viewcount_screenshot_required": false,
+    "_deadline_note": "Manche Kampagnen verlangen Einreichung innerhalb X Min nach Posten (z.B. Enhance: 30 Min). Pruefen."
+  }
+}

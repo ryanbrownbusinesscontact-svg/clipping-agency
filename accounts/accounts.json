@@ -1,0 +1,62 @@
+{
+  "_SCHEMA_NOTE": "Zentrale Registry aller Accounts. Zwei Arten: theme_accounts (Nische/evergreen, nehmen viele Kampagnen derselben Nische auf) und brand_accounts (an eine Brand/Person gebunden). Kampagnen verweisen per id hierher (account_usage). status: planned | warming | active.",
+
+  "theme_accounts": [
+    {
+      "id": "food",
+      "type": "theme",
+      "niche": "food",
+      "handles": { "tiktok": null, "instagram": null, "youtube": null, "x": null },
+      "status": "planned",
+      "warming": { "started": null, "ready": false },
+      "serves_campaigns": ["jacks-dining-room"],
+      "_note": "Evergreen Food-Kanal. Kann mehrere Food-Kampagnen aufnehmen. Handles eintragen sobald erstellt."
+    },
+    {
+      "id": "money-mindset",
+      "type": "theme",
+      "niche": "money-mindset",
+      "handles": { "tiktok": null, "instagram": null, "youtube": null, "x": null },
+      "status": "planned",
+      "warming": { "started": null, "ready": false },
+      "serves_campaigns": ["die-with-zero"],
+      "_note": "Evergreen Money/Mindset/Finance-Philosophy-Kanal. Nimmt account-freie Kampagnen dieser Nische auf (z.B. Die With Zero). Handles eintragen sobald erstellt + aufgewaermt."
+    },
+    {
+      "id": "health-wellness",
+      "type": "theme",
+      "niche": "health-wellness",
+      "handles": { "tiktok": null, "instagram": null, "youtube": null, "x": null },
+      "status": "planned",
+      "warming": { "started": null, "ready": false },
+      "serves_campaigns": ["beekeeper-naturals"],
+      "_note": "Evergreen Health-/Wellness-Kanal. Nimmt Kampagnen dieser Nische auf (z.B. Beekeeper Naturals Podcast Clipping). Brief verlangt 'health and wellness-related pages only' -> Content nur hier posten. Handles eintragen sobald erstellt + aufgewaermt."
+    },
+    {
+      "id": "music-pop",
+      "type": "theme",
+      "niche": "music-pop",
+      "handles": { "tiktok": null, "instagram": null, "youtube": null, "x": null },
+      "status": "planned",
+      "warming": { "started": null, "ready": false },
+      "serves_campaigns": ["dua-lipa-live-mexico"],
+      "_note": "Evergreen Pop/Musik-Konzert-Kanal (Fancam-/Clip-Stil). Nimmt Music-Kampagnen auf (Konzert-/Live-Footage). Brief erlaubt 'any page' — kein Dedikated-Account noetig. Handles eintragen sobald erstellt + aufgewaermt."
+    }
+  ],
+
+  "brand_accounts": [
+    {
+      "id": "jacks-dining-room",
+      "type": "brand",
+      "brand": "Jack's Dining Room",
+      "handles": { "tiktok": null, "instagram": null, "youtube": null, "x": null },
+      "proposed_handle": "@jdr.eats",
+      "_handle_note": "Vorschlag — vor Erstellung Verfuegbarkeit pruefen. @jacksdiningroomclips und @jdrclipping sind bereits von anderen Clippern belegt.",
+      "status": "planned",
+      "required_by_campaign": false,
+      "reason": "Optional, aber strategisch: Phase-2 Europa-Tour-Livestream (Juni) gibt dedizierten Seiten Priority-Zugang.",
+      "warming": { "started": null, "ready": false },
+      "serves_campaigns": ["jacks-dining-room"]
+    }
+  ]
+}

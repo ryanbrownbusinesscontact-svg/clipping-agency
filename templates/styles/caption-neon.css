@@ -1,0 +1,103 @@
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../capture/assets/fonts/Anton-Regular.woff2') format('woff2');
+}
+
+/*
+ * ══════════════════════════════════════════════════════
+ *  Caption Style: NEON ACCENT  (White / Yellow only)
+ *  Version: 1.0 – Mai 2026
+ *  Palette: #FFFFFF base · #FFD60A active · NO green
+ * ══════════════════════════════════════════════════════
+ *
+ *  HOW TO USE IN A HYPERFRAMES COMPOSITION
+ *  ─────────────────────────────────────────
+ *  1. Link this file in your <head>:
+ *       <link rel="stylesheet" href="styles/caption-neon.css">
+ *
+ *  2. Add the caption layer to your composition root div:
+ *       <div id="caption-layer"></div>
+ *
+ *  3. In your JS (after GSAP timeline setup), call:
+ *       buildCaptions(tl, words, "#caption-layer");
+ *
+ *     where `words` is a flat array of:
+ *       { t: "word", s: 0.000, e: 0.420 }   (s/e = composition time in seconds)
+ *
+ *  4. buildCaptions() is defined in caption-neon.js (same folder).
+ *     Or copy the inline version from any composition that already uses it.
+ *
+ *  FONT REQUIREMENT
+ *  ─────────────────
+ *  Anton (wt 400) must be available via @font-face or Google Fonts CDN.
+ *  For offline renders, capture it first:
+ *    npx hyperframes capture fonts
+ *  Then point @font-face at capture/assets/fonts/Anton-Regular.woff2
+ */
+
+/* ── Container ── */
+#caption-layer {
+  position: absolute;
+  left:  0;
+  right: 0;
+  bottom: 580px;          /* TikTok/Reels safe zone — tweak per project */
+  z-index: 50;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* ── Word group (8 words = ~2 lines at 56px) ── */
+.cap-group {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  opacity: 0;             /* hidden by default — GSAP cuts in/out */
+  padding: 0 80px;
+  box-sizing: border-box;
+  line-height: 1.2;
+  word-spacing: 0.04em;
+}
+
+/* ── Single word ── */
+.cap-word {
+  display: inline;
+  font-family: 'Anton', sans-serif;
+  font-size: 56px;
+  font-weight: 400;       /* Anton is inherently bold */
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+
+  /* Subtle dark outline so white is legible on any background */
+  text-shadow:
+    1px  1px 3px rgba(0,0,0,0.9),
+   -1px -1px 3px rgba(0,0,0,0.9),
+    0    2px 8px rgba(0,0,0,0.7);
+}
+
+/* ── Active / highlighted word — neon yellow, NO green ── */
+.cap-word.neon-active {
+  color: #FFD60A;
+  text-shadow:
+    0  0  8px  #FFD60A,
+    0  0  18px #FFD60A,
+    0  0  35px rgba(255, 214, 10, 0.65),
+    0  0  70px rgba(255, 214, 10, 0.25),
+    1px  1px 3px rgba(0,0,0,0.7),
+   -1px -1px 3px rgba(0,0,0,0.7);
+}
+
+/*
+ * ── Responsive scaling hints ──────────────────────────
+ *
+ *  Composition size        font-size   bottom
+ *  ──────────────────────────────────────────────
+ *  1080 × 1920  (9:16 portrait) …  56px    580px  ← this file
+ *  1080 × 1080  (1:1 square)    …  46px    200px
+ *   720 × 1280  (9:16 portrait) …  42px    180px
+ *
+ *  Group size (words per block):
+ *    8 words → ~2 lines at 56px in a 1080px composition  ← default
+ *    5 words → ~1 line  (fast-speech, hook sections)
+ */

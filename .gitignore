@@ -1,0 +1,10 @@
+# Secrets
+.env
+
+# Dependencies
+node_modules/
+
+# Campaign data (raw footage, working files, rendered output) — campaign-specific,
+# regenerated/gathered fresh per project. Only the system + templates are versioned here.
+campaigns/*
+!campaigns/_TEMPLATE.campaign.json
