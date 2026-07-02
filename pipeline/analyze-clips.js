@@ -31,7 +31,12 @@ const { execSync } = require('child_process');
 
 // ── Paths ─────────────────────────────────────────────────────────────────
 const ROOT   = path.join(__dirname, '..');
-const SKILLS = path.join('C:\\Users\\priva\\.claude\\skills\\clip-analysis\\references');
+const SKILLS = path.join(ROOT, '.claude', 'skills', 'clip-analysis', 'references');
+// ffmpeg drawtext braucht eine konkrete TTF-Datei — Windows-Fontconfig fehlt oft, daher
+// je nach OS ein bekanntermaßen vorhandenes Font referenzieren (Arial / DejaVu Sans Bold).
+const DRAWTEXT_FONT = process.platform === 'win32'
+  ? 'C\\:/Windows/Fonts/arial.ttf'
+  : '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
 
 // ── Load .env (optional) ──────────────────────────────────────────────────
 try {
@@ -74,8 +79,9 @@ if (!fs.existsSync(campaignPath)) {
   process.exit(1);
 }
 const campaign = JSON.parse(fs.readFileSync(campaignPath, 'utf8'));
-const isMusic  = campaign.category === 'music';   // music flips several spoken/visual defaults
-const MIN_DUR  = isMusic ? 10 : 15;               // music peaks (a belt/drop) run shorter than a spoken point
+const isMusic  = campaign.category === 'music';    // music flips several spoken/visual defaults
+const isGaming = campaign.category === 'gaming';   // gaming: wordless-ok like music, but no fan-voice
+const MIN_DUR  = (isMusic || isGaming) ? 10 : 15;  // music/gaming peaks (a belt/drop or reveal) run shorter than a spoken point
 
 // ── Videos in content_library ──────────────────────────────────────────────
 const allVideos = [
@@ -170,9 +176,11 @@ function buildPrompt(durationSec, transcriptText, segmentInfo) {
     return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   })() : null;
 
-  // ── Category-conditional OUTPUT-CONTRACT pieces — music flips spoken/visual defaults ──
+  // ── Category-conditional OUTPUT-CONTRACT pieces — music/gaming flip spoken/visual defaults ──
   const verbalHookField = isMusic
     ? `verbal_hook            (opening spoken line IF any speech; null for wordless performance)`
+    : isGaming
+    ? `verbal_hook            (opening spoken/narration line or readable on-screen text IF any; null for wordless trailer/gameplay footage)`
     : `verbal_hook            (opening spoken line; for hook_relocate: the relocated line)`;
   const firstPersonRule = isMusic
     ? `- hook_title is written in FAN / COMMENT voice (stan voice). Collective first person
@@ -187,17 +195,30 @@ function buildPrompt(durationSec, transcriptText, segmentInfo) {
   const verbalHookRule = isMusic
     ? `- verbal_hook is OPTIONAL — the exact opening spoken words IF the clip contains speech,
   else null. Pure performance clips are wordless and valid.`
+    : isGaming
+    ? `- verbal_hook is OPTIONAL — the exact opening spoken/narration words or readable
+  on-screen text IF the clip has any, else null. Pure trailer/gameplay footage with no
+  dialogue or text is wordless and valid.`
     : `- verbal_hook MUST be the exact opening spoken words of the clip at timestamp "start".
   ${transcriptText ? `Copy verbatim from the transcript — this is how "start" is verified.` : `This phrase is your timestamp anchor — locate it precisely in the audio.`}`;
   const boundaryRule = isMusic
     ? `- "start"/"end" align to MUSICAL structure, not sentences: enter 1–2 beats before the
   peak (belt / drop / key change / dance break / fan moment) and end shortly after it
   resolves. A tight window around the single peak beats a long loose one.`
+    : isGaming
+    ? `- "start"/"end" align to the REVEAL/GAMEPLAY beat, not sentences: enter 1–2s before
+  the payoff (the reveal frame, logo/title-card drop, character/feature unveil,
+  clutch/kill, UI moment) and end shortly after it lands — never mid-action, never a
+  long loose tail. A tight window around the single reveal beats a long loose one.`
     : `- "start" begins on a complete thought (no leading filler/conjunction/previous-line
   fragment); "end" lands on the first sentence-final boundary after the payoff — never
   mid-sentence, never a meandering tail. A tight clean window beats a long loose one.`;
   const locateRule = isMusic
     ? `2. Locate each moment by its musical/visual beat (the peak you are clipping), not by counting frames.`
+    : isGaming
+    ? `2. Locate each moment by its visual/gameplay beat (the reveal or highlight you are
+  clipping), not by counting frames; spoken/on-screen text is an additional anchor if
+  present.`
     : `2. Locate every verbal_hook by its speech content in the audio, not by counting frames.`;
   // ranked_countdown: only allowed when Gemini sees the WHOLE show in one pass (fullShow
   // or a short video with no segmentInfo). In a chunked pass it must be forbidden — a
@@ -593,6 +614,7 @@ const LENS_ENUMS = {
   'visual-clip':  ['peak_reaction','spectacle','storytelling','personality','stakes','status_price','social_humor','borrowed_audience'],
   'spoken-clip':  ['contrarian','curiosity_gap','concrete_number','high_stakes','story_turn','qa_reveal','authority'],
   'music':        ['vocal_flex','spectacle_peak','parasocial_moment','crowd_communion','status_take','iconic_meme','surprise'],
+  'gaming':       ['reveal_hype','nostalgia_return','crossover_surprise','gameplay_firstlook','community_reaction','comparison_debate'],
 };
 const validHookTypes = LENS_ENUMS[campaign.category] || [];
 // Music formats (the editorial template; routes the production-editing treatment).
@@ -631,7 +653,7 @@ async function synthesizeRankedCountdown(ai, candidates, masterPath, tmpDir) {
       const winStart  = Math.max(startSec, anchorSec - 2);
       const winEnd    = Math.min(endSec, anchorSec + 3);
       const snippetPath = path.join(tmpDir, `cand${String(i).padStart(2, '0')}.mp4`);
-      const vf = `drawtext=fontfile='C\\:/Windows/Fonts/arial.ttf':text='CANDIDATE ${i + 1}':fontsize=64:fontcolor=yellow:box=1:boxcolor=black@0.85:boxborderw=10:x=(w-text_w)/2:y=40`;
+      const vf = `drawtext=fontfile='${DRAWTEXT_FONT}':text='CANDIDATE ${i + 1}':fontsize=64:fontcolor=yellow:box=1:boxcolor=black@0.85:boxborderw=10:x=(w-text_w)/2:y=40`;
       execSync(
         `ffmpeg -ss ${winStart} -to ${winEnd} -i "${masterPath}" -vf "${vf}" -c:v libx264 -crf 28 -preset veryfast -c:a aac -b:a 48k -y "${snippetPath}"`,
         { stdio: 'pipe' }
@@ -797,7 +819,7 @@ async function analyzeOne(ai, video) {
     const analysisPath = musicMasterPath;
 
     if (!fs.existsSync(analysisPath)) {
-      const vf = `setpts=PTS-STARTPTS,scale=1920:-2,drawtext=fontfile='C\\:/Windows/Fonts/arial.ttf':text='%{pts\\:hms}':fontsize=72:fontcolor=white:box=1:boxcolor=black@0.9:boxborderw=10:x=20:y=20:basetime=0`;
+      const vf = `setpts=PTS-STARTPTS,scale=1920:-2,drawtext=fontfile='${DRAWTEXT_FONT}':text='%{pts\\:hms}':fontsize=72:fontcolor=white:box=1:boxcolor=black@0.9:boxborderw=10:x=20:y=20:basetime=0`;
       console.log(`\n🎬 Erstelle Master-Datei (absolute Timestamps): ${analysisFile}...`);
       execSync(
         `ffmpeg -i "${localMp4}" -vf "${vf}" -r 1 -g 1 -keyint_min 1 -c:v libx264 -crf 28 -preset veryfast -c:a aac -b:a 48k -y "${analysisPath}"`,

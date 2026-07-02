@@ -12,7 +12,7 @@ Input is one longform video's `clips/<label>/candidates.json` + its
 `unpublished/` folder. Nothing here decides *what* to clip — that was step 3. This step
 *executes the edit*: cut → (caption) → motion → hook overlay → audio mix → render.
 
-Business root (ROOT): `C:\Users\priva\Clipping Agency`
+Business root (ROOT): `/home/niklas_baecker_b44/clipping-agency`
 - Input:  `campaigns/<id>/clips/<label>/candidates.json` + `campaigns/<id>/raw-footage/<label>.mp4`
 - Work:   `campaigns/<id>/clips/<label>/_work/<clip-id>/` (cut source, audio, transcript, composition)
 - Output: `campaigns/<id>/clips/<label>/unpublished/<clip-id>.mp4`
@@ -40,9 +40,10 @@ same category, same treatment, for every clip of that lens.
 | `spoken-clip` | `references/treatment-spoken-clip.md` | words lead → full neon karaoke + word-keyed zoom (the validated house style) |
 | `visual-clip` | `references/treatment-visual-clip.md` | image leads → sparse captions, gentle motion, footage audio forward |
 | `music` | `references/treatment-music.md` | performance leads → **routed by `clip.json.format`** (6 formats: vocal_showcase, ranked_countdown, aesthetic_showcase, crowd_takeover, climax_rewind, pure_moment), each a different edit; original audio is the track |
+| `gaming` | `references/treatment-gaming.md` | game trailer/gameplay leads, no host → minimal/no captions, restrained reveal-beat zoom, trailer audio forward, NO speed-up |
 
 The **shared house-style component values** (caption-neon specs, zoom hierarchy, white-box
-hook, audio LUFS targets) live in `C:\Users\priva\CLAUDE.md`. Those numbers are the
+hook, audio LUFS targets) live in `CLAUDE.md` (repo root). Those numbers are the
 *calibrated `spoken-clip` defaults*; the visual-clip and music treatments reuse the same
 components but with their own settings (and some are still being calibrated — each profile
 flags that).
@@ -59,7 +60,7 @@ before a large batch — rendering is the expensive step.
 
 Note each candidate's **`lens`** → that selects the treatment profile for step 4. A single
 video's candidates normally share one lens (the campaign category), but always check.
-Read the matching `references/treatment-<lens>.md` now, plus `C:\Users\priva\CLAUDE.md`
+Read the matching `references/treatment-<lens>.md` now, plus `CLAUDE.md` (repo root)
 for the shared component values it points to.
 
 ### 2. Deterministic cut (script) — universal
@@ -158,7 +159,7 @@ then publishing (step 7) moves the approved files to `published/`.
   (Starter defaults.)
 
 ### Shared component values
-- **`C:\Users\priva\CLAUDE.md`** — calibrated caption-neon, zoom-hierarchy, white-box hook
+- **`CLAUDE.md`** (repo root) — calibrated caption-neon, zoom-hierarchy, white-box hook
   and audio-LUFS specs. These are the `spoken-clip` defaults; other treatments reuse the
   components with their own settings.
 

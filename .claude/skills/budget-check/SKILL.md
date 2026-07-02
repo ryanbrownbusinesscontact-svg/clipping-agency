@@ -9,7 +9,7 @@ version: 1.0.0
 Reads the live `budget_remaining` for every active campaign from Whop and updates
 `campaign.json`. Marks campaigns as `paused` when budget is exhausted.
 
-Business root (ROOT): `C:\Users\priva\Clipping Agency`
+Business root (ROOT): `/home/niklas_baecker_b44/clipping-agency`
 
 ## Workflow
 

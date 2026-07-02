@@ -9,7 +9,7 @@ version: 1.1.0
 Downloads the complete source footage of a campaign into one clean, human-readable
 folder so step 3 (clip analysis) and step 5 (assembly) have everything locally.
 
-Business root (ROOT): `C:\Users\priva\Clipping Agency`
+Business root (ROOT): `/home/niklas_baecker_b44/clipping-agency`
 - Input:  `campaigns/<id>/campaign.json` (content_library)
 - Output: `campaigns/<id>/raw-footage/<label>.mp4` + `campaigns/<id>/raw-footage/footage.json`
 

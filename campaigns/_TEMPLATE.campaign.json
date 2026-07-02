@@ -12,8 +12,8 @@
   "parsed_at": "YYYY-MM-DD",
 
   "category": "",
-  "_category_options": "spoken-clip | visual-clip | ugc-produce | music",
-  "_category_note": "Bestimmt welcher Skill laeuft. spoken-clip = Podcast/Interview (Transkript). visual-clip = Footage mit visuellen Momenten (Food/Produkt/Gaming). ugc-produce = Eigenproduktion (kein Library, Script-Skelett aus Brief; auch wenn nur ein Sound/Track zum Drueberlegen geliefert wird). music = Artist/Konzert/Live/Fancam-Footage clippen (die Performance selbst ist der Content, Hook = projizierte Fan-Reaktion).",
+  "_category_options": "spoken-clip | visual-clip | ugc-produce | music | gaming",
+  "_category_note": "Bestimmt welcher Skill laeuft. spoken-clip = Podcast/Interview (Transkript). visual-clip = Footage mit visuellen Momenten, Creator/Host im Bild (Food/Produkt/Travel/Streamer). ugc-produce = Eigenproduktion (kein Library, Script-Skelett aus Brief; auch wenn nur ein Sound/Track zum Drueberlegen geliefert wird). music = Artist/Konzert/Live/Fancam-Footage clippen (die Performance selbst ist der Content, Hook = projizierte Fan-Reaktion). gaming = Trailer-/Gameplay-Footage eines bestimmten Spiels clippen, kein Creator im Bild (Hook = Hype ums Spiel: Reveal, Crossover, 'X Jahre spaeter', First Look).",
 
   "decision": {
     "fit_score": null,

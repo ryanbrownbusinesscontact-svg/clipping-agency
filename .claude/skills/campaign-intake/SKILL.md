@@ -11,7 +11,7 @@ and creates the matching account records. This is the standardized entry ("step 
 the pipeline: the result is the contract every later step (footage, analysis, hooks,
 assembly, publish) builds on.
 
-Business root (ROOT): `C:\Users\priva\Clipping Agency`
+Business root (ROOT): `/home/niklas_baecker_b44/clipping-agency`
 - Template: `campaigns/_TEMPLATE.campaign.json`
 - Accounts registry: `accounts/accounts.json`
 - Canonical example of a finished JSON: `campaigns/jacks-dining-room/campaign.json`
@@ -63,7 +63,7 @@ Using `references/classification.md`:
 ### 4. Scaffold (deterministic)
 Form a kebab-case `id` from brand + phase (e.g. `jacks-dining-room`). Then:
 ```bash
-node "C:\Users\priva\.claude\skills\campaign-intake\scripts\scaffold-campaign.js" <id>
+node ".claude/skills/campaign-intake/scripts/scaffold-campaign.js" <id>
 ```
 This creates `campaigns/<id>/` (+ the pipeline folders `raw-footage/` for step 2 and
 `clips/` for step 3+) and copies the template to `campaign.json` with `id` set. It NEVER
