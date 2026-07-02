@@ -39,10 +39,10 @@ same category, same treatment, for every clip of that lens.
 |---|---|---|
 | `spoken-clip` | `references/treatment-spoken-clip.md` | words lead → full neon karaoke + word-keyed zoom (the validated house style) |
 | `visual-clip` | `references/treatment-visual-clip.md` | image leads → sparse captions, gentle motion, footage audio forward |
-| `music` | `references/treatment-music.md` | performance leads → static fan-voice caption, beat-synced motion, original audio is the track, NO speed-up |
+| `music` | `references/treatment-music.md` | performance leads → **routed by `clip.json.format`** (6 formats: vocal_showcase, ranked_countdown, aesthetic_showcase, crowd_takeover, climax_rewind, pure_moment), each a different edit; original audio is the track |
 
 The **shared house-style component values** (caption-neon specs, zoom hierarchy, white-box
-hook, audio LUFS targets) live in `CLAUDE.md` (repo root). Those numbers are the
+hook, audio LUFS targets) live in `C:\Users\priva\CLAUDE.md`. Those numbers are the
 *calibrated `spoken-clip` defaults*; the visual-clip and music treatments reuse the same
 components but with their own settings (and some are still being calibrated — each profile
 flags that).
@@ -59,7 +59,7 @@ before a large batch — rendering is the expensive step.
 
 Note each candidate's **`lens`** → that selects the treatment profile for step 4. A single
 video's candidates normally share one lens (the campaign category), but always check.
-Read the matching `references/treatment-<lens>.md` now, plus `CLAUDE.md` (repo root)
+Read the matching `references/treatment-<lens>.md` now, plus `C:\Users\priva\CLAUDE.md`
 for the shared component values it points to.
 
 ### 2. Deterministic cut (script) — universal
@@ -150,11 +150,15 @@ then publishing (step 7) moves the approved files to `published/`.
   zoom + white-box hook + voice/music/glitch mix + 3% speed-up. The validated house style.
 - **`references/treatment-visual-clip.md`** — image leads: sparse captions, gentle motion,
   footage audio forward. (Starter defaults — calibrate on first real campaign.)
-- **`references/treatment-music.md`** — performance leads: static fan-voice caption,
-  beat-synced motion, original audio is the track, no speed-up. (Starter defaults.)
+- **`references/treatment-music.md`** — performance leads, **routed by `clip.json.format`**:
+  one edit recipe per music format (vocal_showcase / ranked_countdown / aesthetic_showcase /
+  crowd_takeover / climax_rewind / pure_moment). Original audio is the
+  track; stitch formats (countdown/takeover) consume `segments[]`; the open-loop format
+  (climax_rewind — shock OR frozen-apex variant) teases `peak_at` then delivers it.
+  (Starter defaults.)
 
 ### Shared component values
-- **`CLAUDE.md`** (repo root) — calibrated caption-neon, zoom-hierarchy, white-box hook
+- **`C:\Users\priva\CLAUDE.md`** — calibrated caption-neon, zoom-hierarchy, white-box hook
   and audio-LUFS specs. These are the `spoken-clip` defaults; other treatments reuse the
   components with their own settings.
 

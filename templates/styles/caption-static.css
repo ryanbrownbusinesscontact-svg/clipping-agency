@@ -8,33 +8,35 @@
 /*
  * ══════════════════════════════════════════════════════
  *  Caption Style: STATIC FAN-VOICE  (music lens)
- *  Version: 1.0 – Juni 2026  (STARTER DEFAULTS — calibrate on first music campaign)
- *  One persistent line in stan/fan voice, NOT karaoke.
- *  Plain bold white text + strong shadow (NOT the CapCut white box —
- *  music clips read cleaner with shadowed text over the performance).
+ *  Version: 2.0 – Juni 2026  (validated on first music clip — black hook-bar layout)
+ *  One persistent line in stan/fan voice, NOT karaoke. Lives in the black
+ *  hook-bar above the native-crop video (treatment-music.md, "Frame layout")
+ *  — not overlaid on footage, so no shadow is needed for legibility.
+ *  Instantly visible at t=0, drifts subtly, then fades out near the end.
  * ══════════════════════════════════════════════════════
  *
  *  USE IN A HYPERFRAMES COMPOSITION
  *  ─────────────────────────────────
  *  1. <head>:  <link rel="stylesheet" href="styles/caption-static.css">
  *  2. root div: <div id="static-caption"></div>
- *  3. JS (after GSAP timeline):  buildStaticCaption(tl, FAN_LINE, { appear: 0.2 });
- *     where FAN_LINE is the clip.json hook_title (fan-voice line).
+ *  3. JS (after GSAP timeline):  buildStaticCaption(tl, FAN_LINE);
+ *     where FAN_LINE is the clip.json hook_title in fan voice, naming the
+ *     artist (e.g. "Dua's outfit reveal for 'New Rules' is insane").
  *  buildStaticCaption() is in caption-static.js (same folder).
  */
 
-/* ── Container — upper third, clear of the subject and of the bottom UI ── */
+/* ── Container — upper part of the black hook-bar (treatment-music.md) ── */
 #static-caption {
   position: absolute;
   left:  0;
   right: 0;
-  top: 360px;             /* upper third for 1080×1920 — tweak per project */
+  top: 130px;             /* upper part of the black hook-bar — tweak per project */
   z-index: 60;
   pointer-events: none;
   text-align: center;
   padding: 0 70px;
   box-sizing: border-box;
-  opacity: 0;             /* GSAP fades it in */
+  opacity: 1;             /* instant visible — buildStaticCaption() handles drift+fade */
 }
 
 /* ── The fan-voice line ── */
@@ -47,7 +49,8 @@
   letter-spacing: 0.01em;
   color: #FFFFFF;
 
-  /* Strong dark shadow so white stays legible over bright stage lighting */
+  /* Soft shadow — mostly redundant on the solid black bar, kept in case
+     the caption ever sits over footage again */
   text-shadow:
     2px  2px 4px rgba(0,0,0,0.95),
    -2px -2px 4px rgba(0,0,0,0.95),
@@ -58,8 +61,12 @@
  * ── Responsive scaling hints ──────────────────────────
  *  Composition size              font-size   top
  *  ──────────────────────────────────────────────
- *  1080 × 1920  (9:16 portrait) …  64px      360px   ← this file
- *   720 × 1280  (9:16 portrait) …  46px      240px
+ *  1080 × 1920  (9:16 portrait) …  64px      130px   ← this file
+ *   720 × 1280  (9:16 portrait) …  46px       85px
+ *
+ *  The black hook-bar height varies per source (treatment-music.md, "Frame
+ *  layout") but is typically 700-850px+, comfortably larger than this caption
+ *  needs.
  *
  *  For a parasocial clip where the artist talks to the crowd, use the
  *  karaoke caption-neon.* for that spoken segment instead of this static line.

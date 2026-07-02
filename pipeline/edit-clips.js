@@ -71,6 +71,13 @@ const BOUND_EPS = 5e-3;         // Toleranz an Segment-Grenzen: toHMS rundet auf
 
 // --- [start,end] minus internal_trims => Liste behaltener Segmente -------
 function keptSegments(c) {
+  // Stitch-Formate (ranked_countdown / crowd_takeover): segments[] sind die exakten
+  // Picks in Reihenfolge — direkt schneiden + concat (buildArgs verkettet N Segmente).
+  if (Array.isArray(c.segments) && c.segments.length) {
+    return c.segments
+      .map(s => ({ s: toSeconds(s.start), e: toSeconds(s.end) }))
+      .filter(seg => Number.isFinite(seg.s) && Number.isFinite(seg.e) && seg.e > seg.s);
+  }
   const start = toSeconds(c.start), end = toSeconds(c.end);
   const trims = (c.internal_trims || [])
     .map(t => ({ s: toSeconds(t.from), e: toSeconds(t.to) }))

@@ -212,10 +212,14 @@ Wort-Indices wo Clips starten → buildCaptions() respektiert automatisch:
 - Timing: altes Group-Hide = exakter Moment wo neue Group startet → kein schwarzer Gap
 - Anton-Font offline verfügbar: `templates/capture/assets/fonts/Anton-Regular.woff2`
 
-### Music-Lens (statische Caption)
-Für `lens === "music"` gilt **nicht** das Neon-Karaoke oben, sondern eine einzelne
-statische Fan-Voice-Caption (`hook_title`), instant sichtbar (`opacity:1`), die nur
-ausfadet — siehe `treatment-music.md` und `templates/styles/caption-static.css` /
+### Music-Lens (statische Caption + schwarze Hook-Bar)
+Für `lens === "music"` gilt **nicht** das Neon-Karaoke oben, sondern (validiert Juni
+2026): das Video wird **nativ ohne Upscale** aus dem Raw-Footage gecroppt
+(`crop=1080:<H>:<x>:<y>`, kein `scale=`), full-width unten ausgerichtet — der
+verbleibende obere Bereich wird zur **schwarzen Hook-Bar**. Darin sitzt eine einzelne
+statische Fan-Voice-Caption (`hook_title`, Artist namentlich genannt), instant sichtbar
+(`opacity:1`), die leicht driftet und gegen Ende ausfadet — siehe `treatment-music.md`
+("Frame layout" + §1) und `templates/styles/caption-static.css` /
 `templates/scripts/caption-static.js`.
 
 ---
@@ -275,5 +279,5 @@ tl.to('#hook-title', { opacity: 0, duration: 0.3, ease: 'power2.in' }, 3.2);
 - Nur für die ersten 2.7–3s sichtbar — verschwindet bevor Caption-Gruppen erscheinen
 - Text kurz und knackig halten — max. 2 Zeilen bei 58px Anton
 - Farbe: **immer schwarz (#000) auf Weiß (#fff)** — kein Gelb, kein Grau
-- **Music-Lens:** hier gilt stattdessen die statische Fan-Voice-Caption
-  (`treatment-music.md`), kein White-Box-Hook.
+- **Music-Lens:** hier gilt stattdessen die statische Fan-Voice-Caption in der
+  schwarzen Hook-Bar (`treatment-music.md`), kein White-Box-Hook.
